@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "294032108650",
+    "project_id": "my-firebase-2409",
+    "storage_bucket": "my-firebase-2409.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294032108650:android:ec0aa640a2983138cc6e13",
+        "android_client_info": {
+          "package_name": "com.example.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294032108650-0ctnsi73dvi11ppasm031ll20m0k0kd3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzd_9PMWQ0fktHhmTxBs0JcuOYfBCn5OY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294032108650-0ctnsi73dvi11ppasm031ll20m0k0kd3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
