@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -17,6 +18,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  bool _saving = false;
   final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
@@ -24,52 +26,58 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(
-              height: 200.0,
-              child: Hero(tag: 'logo', child: Image.asset('images/logo.png')),
-            ),
-            const SizedBox(
-              height: 48.0,
-            ),
-            TextField(
-              keyboardType: TextInputType.emailAddress,
-              textAlign: TextAlign.center,
-              onChanged: (value) {
-                email = value;
-              },
-              decoration: kTextFieldDecoration.copyWith(
-                hintText: 'Enter your Email',
+      body: ModalProgressHUD(
+        inAsyncCall: _saving,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 200.0,
+                child: Hero(tag: 'logo', child: Image.asset('images/logo.png')),
               ),
-            ),
-            const SizedBox(
-              height: 8.0,
-            ),
-            TextField(
-              obscureText: true,
-              textAlign: TextAlign.center,
-              onChanged: (value) {
-                password = value;
-              },
-              decoration: kTextFieldDecoration.copyWith(
-                hintText: 'Enter your Password',
+              const SizedBox(
+                height: 48.0,
               ),
-            ),
-            const SizedBox(
-              height: 24.0,
-            ),
-            RoundedButton(
-                title: 'Register',
-                color: Colors.blueAccent,
-                onPress: () {
-                  _registerUser(email, password);
-                }),
-          ],
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  email = value;
+                },
+                decoration: kTextFieldDecoration.copyWith(
+                  hintText: 'Enter your Email',
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                obscureText: true,
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  password = value;
+                },
+                decoration: kTextFieldDecoration.copyWith(
+                  hintText: 'Enter your Password',
+                ),
+              ),
+              const SizedBox(
+                height: 24.0,
+              ),
+              RoundedButton(
+                  title: 'Register',
+                  color: Colors.blueAccent,
+                  onPress: () {
+                    setState(() {
+                      _saving = true;
+                    });
+                    _registerUser(email, password);
+                  }),
+            ],
+          ),
         ),
       ),
     );
@@ -80,9 +88,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // ignore: unused_local_variable
       final newUser = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      showRegistrationSnackbar(email);
+      setState(() {
+        _saving = false;
+      });
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, ChatScreen.id);
     } catch (e) {
+      setState(() {
+        _saving = false;
+      });
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -101,5 +116,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         },
       );
     }
+  }
+
+  void showRegistrationSnackbar(String? email) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('New user $email registered'),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 }
