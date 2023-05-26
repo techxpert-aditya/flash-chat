@@ -15,75 +15,92 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Color?> _backgroundColorAnimation;
   @override
   void initState() {
     super.initState();
-    AnimationController controller =
+    _animationController =
         AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    controller.forward();
-    controller.addListener(() {});
+
+    _backgroundColorAnimation = ColorTween(
+      begin: Colors.lightBlueAccent, // Starting color
+      end: Colors.white, // Ending color
+    ).animate(_animationController);
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  height: 60.0,
-                  child: Hero(
-                    tag: 'logo',
-                    child: Image.asset(
-                      'images/logo.png',
-                    ),
-                  ),
-                ),
-                DefaultTextStyle(
-                  style: const TextStyle(
-                    fontSize: 50.0,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black87,
-                    fontFamily: 'Agne',
-                  ),
-                  child: AnimatedTextKit(
-                    animatedTexts: [
-                      TypewriterAnimatedText('flash chat'),
-                      TypewriterAnimatedText('flash talks'),
-                      TypewriterAnimatedText('quick chats'),
-                      TypewriterAnimatedText('flash chat'),
+    return AnimatedBuilder(
+        animation: _animationController,
+        builder: (BuildContext context, Widget? child) {
+          return Scaffold(
+            backgroundColor: _backgroundColorAnimation.value,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 60.0,
+                        child: Hero(
+                          tag: 'logo',
+                          child: Image.asset(
+                            'images/logo.png',
+                          ),
+                        ),
+                      ),
+                      DefaultTextStyle(
+                        style: const TextStyle(
+                          fontSize: 50.0,
+                          fontWeight: FontWeight.w900,
+                          color: Color.fromARGB(255, 6, 70, 67),
+                          fontFamily: 'Agne',
+                        ),
+                        child: AnimatedTextKit(
+                          animatedTexts: [
+                            TypewriterAnimatedText('flash chat'),
+                            TypewriterAnimatedText('flash talks'),
+                            TypewriterAnimatedText('quick chats'),
+                            TypewriterAnimatedText('flash chat'),
+                          ],
+                          onTap: () {},
+                        ),
+                      ),
                     ],
-                    onTap: () {},
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 48.0,
+                  ),
+                  RoundedButton(
+                      title: 'Log In',
+                      color: Colors.lightBlueAccent,
+                      onPress: () {
+                        //Go to login screen.
+                        Navigator.pushNamed(context, LoginScreen.id);
+                      }),
+                  RoundedButton(
+                      title: 'Register',
+                      color: Colors.blueAccent,
+                      onPress: () {
+                        //Go to registration screen.
+                        Navigator.pushNamed(context, RegistrationScreen.id);
+                      }),
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 48.0,
-            ),
-            RoundedButton(
-                title: 'Log In',
-                color: Colors.lightBlueAccent,
-                onPress: () {
-                  //Go to login screen.
-                  Navigator.pushNamed(context, LoginScreen.id);
-                }),
-            RoundedButton(
-                title: 'Register',
-                color: Colors.blueAccent,
-                onPress: () {
-                  //Go to registration screen.
-                  Navigator.pushNamed(context, RegistrationScreen.id);
-                }),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
