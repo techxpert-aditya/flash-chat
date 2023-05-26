@@ -54,35 +54,73 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
         title: const Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: const Color(0xFF393E46),
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            // Add your chat message list widget here
-
+        child: Stack(
+          children: [
             Container(
-              decoration: kMessageContainerDecoration,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      onChanged: (value) {
-                        // Do something with the user input.
-                      },
-                      decoration: kMessageTextFieldDecoration,
-                    ),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    'images/back.jpg',
                   ),
-                  TextButton(
-                    onPressed: () {
-                      // Implement send functionality.
-                    },
-                    child: const Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.white
+                    .withOpacity(0.5), // Semi-transparent white color
+              ),
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  // Add your chat message list widget here
+
+                  Container(
+                    decoration: kMessageContainerDecoration,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: TextField(
+                            onChanged: (value) {
+                              // Do something with the user input.
+                            },
+                            decoration: kMessageTextFieldDecoration,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 48,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF00ADB5),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(50),
+                                    bottomRight: Radius.circular(50)),
+                              ), // Make the button circular
+                            ),
+                            child: const Icon(
+                              Icons.send,
+                              color: Color(0xFFEEEEEE),
+                            ),
+                            // child: const Text(
+                            //   'Send',
+                            //   style: kSendButtonTextStyle,
+                            // ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

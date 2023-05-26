@@ -25,60 +25,83 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: ModalProgressHUD(
-        inAsyncCall: _saving,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: 200.0,
-                child: Hero(tag: 'logo', child: Image.asset('images/logo.png')),
-              ),
-              const SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your Email',
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'images/back.jpg',
                 ),
+                fit: BoxFit.cover,
               ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                obscureText: true,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your Password',
-                ),
-              ),
-              const SizedBox(
-                height: 24.0,
-              ),
-              RoundedButton(
-                  title: 'Register',
-                  color: Colors.blueAccent,
-                  onPress: () {
-                    setState(() {
-                      _saving = true;
-                    });
-                    _registerUser(email, password);
-                  }),
-            ],
+            ),
           ),
-        ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color:
+                  Colors.white.withOpacity(0.5), // Semi-transparent white color
+            ),
+          ),
+          Center(
+            child: ModalProgressHUD(
+              inAsyncCall: _saving,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 200.0,
+                      child: Hero(
+                          tag: 'logo', child: Image.asset('images/logo.png')),
+                    ),
+                    const SizedBox(
+                      height: 48.0,
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        email = value;
+                      },
+                      decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Enter your Email',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    TextField(
+                      obscureText: true,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        password = value;
+                      },
+                      decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Enter your Password',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    RoundedButton(
+                        title: 'Register',
+                        color: const Color(0xFF393E46),
+                        onPress: () {
+                          setState(() {
+                            _saving = true;
+                          });
+                          _registerUser(email, password);
+                        }),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

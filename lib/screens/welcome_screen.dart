@@ -21,11 +21,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     super.initState();
     _animationController =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
+        AnimationController(duration: const Duration(seconds: 1), vsync: this)
+          ..repeat(reverse: true);
 
     _backgroundColorAnimation = ColorTween(
-      begin: Colors.lightBlueAccent, // Starting color
-      end: Colors.white, // Ending color
+      begin: const Color(0xFF393E46), // Starting color
+      end: const Color(0xFF222831), // Ending color
     ).animate(_animationController);
 
     _animationController.forward();
@@ -46,58 +47,108 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             backgroundColor: _backgroundColorAnimation.value,
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 60.0,
-                        child: Hero(
-                          tag: 'logo',
-                          child: Image.asset(
-                            'images/logo.png',
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 100, horizontal: 10),
+                child: Material(
+                  elevation: 50,
+                  borderRadius: BorderRadius.circular(25),
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          image: const DecorationImage(
+                            image: AssetImage(
+                              'images/back.jpg',
+                            ),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      DefaultTextStyle(
-                        style: const TextStyle(
-                          fontSize: 50.0,
-                          fontWeight: FontWeight.w900,
-                          color: Color.fromARGB(255, 6, 70, 67),
-                          fontFamily: 'Agne',
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white
+                              .withOpacity(0.5), // Semi-transparent white color
                         ),
-                        child: AnimatedTextKit(
-                          animatedTexts: [
-                            TypewriterAnimatedText('flash chat'),
-                            TypewriterAnimatedText('flash talks'),
-                            TypewriterAnimatedText('quick chats'),
-                            TypewriterAnimatedText('flash chat'),
-                          ],
-                          onTap: () {},
+                      ),
+                      Center(
+                        child: Material(
+                          color: Colors.transparent,
+                          // elevation: 20,
+                          borderRadius: BorderRadius.circular(50),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            // crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 60.0,
+                                    child: Hero(
+                                      tag: 'logo',
+                                      child: Image.asset(
+                                        'images/logo.png',
+                                      ),
+                                    ),
+                                  ),
+                                  DefaultTextStyle(
+                                    style: const TextStyle(
+                                      fontSize: 45.0,
+                                      fontWeight: FontWeight.w900,
+                                      color: Color.fromARGB(255, 6, 70, 67),
+                                      fontFamily: 'Agne',
+                                    ),
+                                    child: AnimatedTextKit(
+                                      animatedTexts: [
+                                        TypewriterAnimatedText(
+                                          'flash chat',
+                                          speed:
+                                              const Duration(milliseconds: 100),
+                                        ),
+                                        TypewriterAnimatedText(
+                                          'flash talks',
+                                          speed:
+                                              const Duration(milliseconds: 100),
+                                        ),
+                                        TypewriterAnimatedText(
+                                          'quick chats',
+                                          speed:
+                                              const Duration(milliseconds: 100),
+                                        ),
+                                      ],
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 48.0,
+                              ),
+                              RoundedButton(
+                                  title: 'Log In',
+                                  color: const Color(0xFF00ADB5),
+                                  onPress: () {
+                                    //Go to login screen.
+                                    Navigator.pushNamed(
+                                        context, LoginScreen.id);
+                                  }),
+                              RoundedButton(
+                                  title: 'Register',
+                                  color: const Color(0xFF393E46),
+                                  onPress: () {
+                                    //Go to registration screen.
+                                    Navigator.pushNamed(
+                                        context, RegistrationScreen.id);
+                                  }),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 48.0,
-                  ),
-                  RoundedButton(
-                      title: 'Log In',
-                      color: Colors.lightBlueAccent,
-                      onPress: () {
-                        //Go to login screen.
-                        Navigator.pushNamed(context, LoginScreen.id);
-                      }),
-                  RoundedButton(
-                      title: 'Register',
-                      color: Colors.blueAccent,
-                      onPress: () {
-                        //Go to registration screen.
-                        Navigator.pushNamed(context, RegistrationScreen.id);
-                      }),
-                ],
+                ),
               ),
             ),
           );
