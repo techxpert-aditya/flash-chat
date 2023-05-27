@@ -249,11 +249,17 @@ class MessageBubble extends StatelessWidget {
             color: isMe ? const Color(0xFF00ADB5) : Colors.white,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
-                text,
-                style: TextStyle(
+              child: Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 200,
+                ),
+                child: Text(
+                  text,
+                  style: TextStyle(
                     color: isMe ? Colors.white : const Color(0xFF393E46),
-                    fontSize: 20),
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
           ),
