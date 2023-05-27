@@ -126,11 +126,12 @@ class _ChatScreenState extends State<ChatScreen> {
                               _firestore.collection('messages').add({
                                 'sender': loggedInUser?.email,
                                 'text': messageText,
+                                'timeStamp': FieldValue.serverTimestamp(),
                               });
                             },
                             style: ElevatedButton.styleFrom(
                               elevation: 5,
-                              backgroundColor: const Color(0xFF00ADB5),
+                              backgroundColor: const Color(0xFF393E46),
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(50),
@@ -168,7 +169,10 @@ class StreamBuilderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance.collection('messages').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('messages')
+          .orderBy('timeStamp', descending: true)
+          .snapshots(),
       builder: (BuildContext context,
           AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
@@ -187,52 +191,43 @@ class StreamBuilderWidget extends StatelessWidget {
         for (var msg in documents) {
           final messageText = msg.data()!['text'];
           final messageSender = msg.data()!['sender'];
+          bool isMe = FirebaseAuth.instance.currentUser?.email == messageSender;
 
-          final messageBubble =
-              MessageBubble(text: messageText, sender: messageSender);
+          final messageBubble = MessageBubble(
+              text: messageText, sender: messageSender, isMe: isMe);
 
           messageBubbles.add(messageBubble);
         }
 
         return Expanded(
           child: ListView(
+            reverse: true,
             children: messageBubbles,
           ),
         );
-        // return Expanded(
-        //   child: ListView.builder(
-        //     itemCount: documents.length,
-        //     itemBuilder: (BuildContext context, int index) {
-        //       final document = documents[index];
-        //       final field1 = document.data()!['sender'];
-        //       // Access individual document fields using document.data() map
-        //       final field2 = document.data()!['text'];
-
-        //       // Return a widget displaying the document data
-        //       return ListTile(
-        //         title: Text(field1),
-        //         subtitle: Text(field2),
-        //       );
-        //     },
-        //   ),
-        // );
       },
     );
   }
 }
 
 class MessageBubble extends StatelessWidget {
-  const MessageBubble({super.key, required this.text, required this.sender});
+  const MessageBubble(
+      {super.key,
+      required this.text,
+      required this.sender,
+      required this.isMe});
 
   final String text;
   final String sender;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text(
             sender,
@@ -243,17 +238,22 @@ class MessageBubble extends StatelessWidget {
           ),
           Material(
             elevation: 5,
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
+            borderRadius: BorderRadius.only(
+              topRight:
+                  isMe ? const Radius.circular(0) : const Radius.circular(30),
+              topLeft:
+                  isMe ? const Radius.circular(30) : const Radius.circular(0),
+              bottomLeft: const Radius.circular(30),
+              bottomRight: const Radius.circular(30),
             ),
-            color: const Color(0xFF00ADB5),
+            color: isMe ? const Color(0xFF00ADB5) : Colors.white,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 text,
-                style: const TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(
+                    color: isMe ? Colors.white : const Color(0xFF393E46),
+                    fontSize: 20),
               ),
             ),
           ),

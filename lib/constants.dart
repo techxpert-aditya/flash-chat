@@ -16,20 +16,14 @@ const kMessageTextFieldDecoration = InputDecoration(
         topLeft: Radius.circular(32.0), bottomLeft: Radius.circular(32.0)),
   ),
   enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Color(0xFF00ADB5), width: 1.0),
+    borderSide: BorderSide(color: Color(0xFF393E46), width: 1.0),
     borderRadius: BorderRadius.only(
         topLeft: Radius.circular(32.0), bottomLeft: Radius.circular(32.0)),
   ),
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Color(0xFF00ADB5), width: 2.0),
+    borderSide: BorderSide(color: Color(0xFF393E46), width: 2.0),
     borderRadius: BorderRadius.only(
         topLeft: Radius.circular(32.0), bottomLeft: Radius.circular(32.0)),
-  ),
-);
-
-const kMessageContainerDecoration = BoxDecoration(
-  border: Border(
-    top: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
   ),
 );
 
