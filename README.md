@@ -19,9 +19,12 @@ Flash Chat is a cross-platform mobile chat application built using Flutter and F
 
 ## Screenshots
 
-![Welcome screen](https://github.com/techxpert-aditya/flash-chat/blob/master/images/for-readme/welcomeScreen.gif)
-![Chat screen](https://github.com/techxpert-aditya/flash-chat/blob/master/images/for-readme/chatScreen.jpg)
-![Login screen](https://github.com/techxpert-aditya/flash-chat/blob/master/images/for-readme/loginScreen.jpg)
+<div style="display: flex; justify-content: center; align-items: center;">
+   <img src="https://github.com/techxpert-aditya/flash-chat/blob/master/images/for-readme/welcomeScreen.gif" alt="Welcome Screen" width="300" />
+   <img src="https://github.com/techxpert-aditya/flash-chat/blob/master/images/for-readme/loginScreen.jpg" alt="Login Screen" width="300" />
+   <img src="https://github.com/techxpert-aditya/flash-chat/blob/master/images/for-readme/chatScreen.jpg" alt="Chat Screen" width="300" />
+</div>
+
 
 ## Usage
 
