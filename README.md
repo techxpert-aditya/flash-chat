@@ -4,6 +4,8 @@
 
 Flash Chat is a cross-platform mobile chat application built using Flutter and Firebase. It allows users to register, login, and participate in group chats. The application leverages Firebase Authentication for user authentication and Firestore for real-time data storage.
 
+[Download the app](https://github.com/techxpert-aditya/flash-chat/blob/master/app-release.apk)
+
 ## Features
 
 - User registration and login
